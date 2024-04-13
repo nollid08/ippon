@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "547003028745",
+    "project_id": "ippon-app",
+    "storage_bucket": "ippon-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547003028745:android:b348534e4ec3baac37afd8",
+        "android_client_info": {
+          "package_name": "com.example.ippon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0o-TH3-kEmfM7phyw85k9s8MeHXr00xg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
