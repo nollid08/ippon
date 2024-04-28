@@ -4,8 +4,10 @@ import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ippon/navigation/nav.dart';
 import 'package:ippon/screens/profile.dart';
 import 'package:ippon/screens/sign_in.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -28,7 +30,7 @@ class MainApp extends StatelessWidget {
 
     return switch (user) {
       null => '/',
-      User() => '/profile',
+      User() => '/app',
     };
   }
 
@@ -37,7 +39,9 @@ class MainApp extends StatelessWidget {
     final buttonStyle = ButtonStyle(
       padding: MaterialStateProperty.all(const EdgeInsets.all(12)),
       shape: MaterialStateProperty.all(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
       ),
     );
 
@@ -48,6 +52,18 @@ class MainApp extends StatelessWidget {
         useMaterial3: true,
         inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(),
+        ),
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+          color: Colors.green,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        iconButtonTheme: IconButtonThemeData(
+          style: ButtonStyle(
+            iconColor: MaterialStateProperty.all(Colors.white),
+          ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(style: buttonStyle),
         textButtonTheme: TextButtonThemeData(style: buttonStyle),
@@ -60,6 +76,9 @@ class MainApp extends StatelessWidget {
         },
         '/profile': (context) {
           return const Profile();
+        },
+        '/app': (context) {
+          return const BottomBar();
         },
       },
       title: 'Ippon',
