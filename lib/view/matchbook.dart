@@ -68,7 +68,7 @@ class _MatchbookState extends State<Matchbook> {
                           onTap: () => {
                                 PersistentNavBarNavigator.pushNewScreen(
                                   context,
-                                  screen: Match(
+                                  screen: MatchScreen(
                                       title: title,
                                       description: description,
                                       opponent: opponent,

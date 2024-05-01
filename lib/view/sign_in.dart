@@ -19,7 +19,7 @@ class SignIn extends StatelessWidget {
           };
 
           if (user != null) {
-            Navigator.pushReplacementNamed(context, '/profile');
+            Navigator.pushReplacementNamed(context, '/app');
           }
         }),
       ],

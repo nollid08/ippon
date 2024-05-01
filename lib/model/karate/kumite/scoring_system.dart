@@ -12,8 +12,8 @@ extension ScoringSystemsExtension on ScoringSystems {
           scoresToWin: 3,
           title: 'SKIF Ippon-Han',
           scoreTypes: [
-            ScoreType(id: "ippon", name: "ippon", value: 2),
-            ScoreType(id: "wazari", name: "waza-ari", value: 1),
+            ScoreType(id: "ippon", name: "Ippon", value: 2),
+            ScoreType(id: "wazari", name: "Waza-ari", value: 1),
           ],
         );
       case ScoringSystems.IJKA:
@@ -21,17 +21,17 @@ extension ScoringSystemsExtension on ScoringSystems {
           scoresToWin: 2,
           title: 'IJKA',
           scoreTypes: [
-            ScoreType(id: "ippon", name: "ippon", value: 2),
-            ScoreType(id: "wazari", name: "waza-ari", value: 1),
+            ScoreType(id: "ippon", name: "Ippon", value: 2),
+            ScoreType(id: "wazari", name: "Waza-ari", value: 1),
           ],
         );
       case ScoringSystems.WKF:
         return ScoringSystem(
           scoresToWin: 2,
-          title: 'IJKA',
+          title: 'WKF',
           scoreTypes: [
-            ScoreType(id: "ippon", name: "ippon", value: 2),
-            ScoreType(id: "wazari", name: "waza-ari", value: 1),
+            ScoreType(id: "ippon", name: "Ippon", value: 2),
+            ScoreType(id: "wazari", name: "Waza-ari", value: 1),
           ],
         ); // Point value for WKF scoring system
       default:

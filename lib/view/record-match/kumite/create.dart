@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:ippon/model/scoring_system.dart';
-import 'package:ippon/screens/record-match/kumite/details.dart';
-import 'package:ippon/model/match.dart';
+import 'package:ippon/model/karate/kumite/scoring_system.dart';
+import 'package:ippon/view/record-match/kumite/details.dart';
+import 'package:ippon/model/karate/kumite/kumite_match.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class CreateKumiteMatch extends StatefulWidget {
   const CreateKumiteMatch({super.key});
@@ -78,20 +79,19 @@ class _CreateKumiteMatchState extends State<CreateKumiteMatch> {
                     final String opponent = formValue?['opponent'];
                     final DateTime matchDate = formValue?['matchDate'];
 
-                    final Match match = Match(
+                    final KumiteMatch match = KumiteMatch(
                       title: title,
                       description: description,
                       opponent: opponent,
                       dateTime: matchDate,
                       scoringSystem: ScoringSystems.IJKA,
-                      type: 'kumite',
                     );
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return DetailKumiteMatch(
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: DetailKumiteMatch(
                         match: match,
-                      );
-                    }));
+                      ),
+                    );
                   }),
             ],
           ),

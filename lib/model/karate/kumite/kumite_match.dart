@@ -1,29 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ippon/model/result.dart';
-import 'package:ippon/model/scoring_system.dart';
-import 'package:ippon/model/targets.dart';
-import 'package:ippon/model/techniques.dart';
+import 'package:ippon/model/karate/kumite/scoring_system.dart';
+import 'package:ippon/model/karate/kumite/targets.dart';
+import 'package:ippon/model/karate/kumite/techniques.dart';
 
 import 'score.dart';
 
-class Match {
+class KumiteMatch {
   final String title;
   final String description;
   final String opponent;
   final DateTime dateTime;
   final ScoringSystems scoringSystem;
-  final String type;
   Result _result;
   int _homeScore;
   int _awayScore;
   List<Score> _scores;
 
-  Match({
+  KumiteMatch({
     required this.title,
     required this.description,
     required this.opponent,
     required this.dateTime,
     required this.scoringSystem,
-    this.type = 'kumite',
     List<Score> scores = const [],
   })  : _awayScore = 0,
         _homeScore = 0,
@@ -32,10 +31,10 @@ class Match {
     _updateMatchStats();
   }
 
-  get result => _result;
-  get homeScore => _homeScore;
-  get awayScore => _awayScore;
-  get scores => _scores;
+  Result get result => _result;
+  int get homeScore => _homeScore;
+  int get awayScore => _awayScore;
+  List<Score> get scores => _scores;
 
   void addScore(Score score) {
     //add score to _scores which is immutable
@@ -46,7 +45,7 @@ class Match {
   }
 
   void removeScore(Score score) {
-    _scores.remove(score);
+    _scores = _scores.where((s) => s != score).toList();
     _updateMatchStats();
   }
 
@@ -92,5 +91,52 @@ class Match {
         ? 0
         : awayScoresMap.reduce((value, element) => value + element);
     return awayScore;
+  }
+
+  Future<bool> record() async {
+    if (scores.isEmpty) {
+      return false;
+    }
+
+    final db = FirebaseFirestore.instance;
+    final batch = db.batch();
+    final DocumentReference<Map<String, dynamic>> matchDoc = db
+        .collection('users')
+        .doc('gBONifqYDpc0fUlRrEE025mJ92m1')
+        .collection('matches')
+        .doc();
+
+    final Map<String, dynamic> matchData = {
+      'type': 'kumite',
+      'title': title,
+      'description': description,
+      'opponent': opponent,
+      'dateTime': dateTime,
+      'scoringSystem': scoringSystem.system.title,
+      'homeScore': homeScore,
+      'awayScore': awayScore,
+      'result': result.toString(),
+    };
+
+    batch.set(matchDoc, matchData);
+
+    for (Score score in scores) {
+      final DocumentReference<Map<String, dynamic>> scoreDoc =
+          matchDoc.collection('scores').doc();
+      final index = scores.indexOf(score);
+      final Map<String, dynamic> scoreData = {
+        'index': index,
+        'type': score.type.name,
+        'technique': score.technique.data.japaneseName,
+        'target': score.target.info.japaneseName,
+        'description': score.description,
+        'homeScored': score.homeScored,
+      };
+
+      batch.set(scoreDoc, scoreData);
+    }
+
+    await batch.commit();
+    return true;
   }
 }

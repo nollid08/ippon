@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:ippon/screens/matchbook.dart';
-import 'package:ippon/screens/record-match/record.dart';
-import 'package:ippon/screens/record-match/type.dart';
-import 'package:ippon/screens/stats.dart';
+import 'package:ippon/view/matchbook.dart';
+import 'package:ippon/view/record-match/record.dart';
+import 'package:ippon/view/record-match/type.dart';
+import 'package:ippon/view/stats.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 PersistentTabController _controller = PersistentTabController(initialIndex: 0);
+
+void jumpToTab(int index) {
+  _controller.jumpToTab(index);
+}
 
 List<Widget> _buildScreens() {
   return [
@@ -20,6 +24,12 @@ List<Widget> _buildScreens() {
 List<PersistentBottomNavBarItem> _navBarsItems() {
   return [
     PersistentBottomNavBarItem(
+      routeAndNavigatorSettings: RouteAndNavigatorSettings(
+        initialRoute: '/matchbook',
+        routes: {
+          '/matchbook': (context) => const Matchbook(),
+        },
+      ),
       icon: const Icon(
         Icons.book_outlined,
       ),
@@ -39,6 +49,12 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       icon: const Icon(
         Icons.add,
         color: Colors.white,
+      ),
+      routeAndNavigatorSettings: RouteAndNavigatorSettings(
+        initialRoute: '/record',
+        routes: {
+          '/record': (context) => const SelectKarateMatchType(),
+        },
       ),
       title: ("Record"),
       activeColorPrimary: Colors.green,

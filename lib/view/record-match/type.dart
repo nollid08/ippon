@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ippon/screens/record-match/kumite/create.dart';
+import 'package:ippon/view/record-match/kumite/create.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class SelectKarateMatchType extends StatelessWidget {
@@ -24,10 +24,11 @@ class SelectKarateMatchType extends StatelessWidget {
           ),
           SquareElevatedButton(
             onPressed: () {
-              PersistentNavBarNavigator.pushNewScreen(
+              PersistentNavBarNavigator.pushDynamicScreen(
                 context,
-                screen: CreateKumiteMatch(),
-                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                screen: MaterialPageRoute(
+                  builder: (context) => const CreateKumiteMatch(),
+                ),
               );
             },
             title: 'Kumite',

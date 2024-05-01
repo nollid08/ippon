@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Match extends StatelessWidget {
-  const Match({
+class MatchScreen extends StatelessWidget {
+  const MatchScreen({
     super.key,
     required this.title,
     required this.description,

@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ippon/navigation/nav.dart';
-import 'package:ippon/screens/profile.dart';
-import 'package:ippon/screens/sign_in.dart';
+import 'package:ippon/view/profile.dart';
+import 'package:ippon/view/sign_in.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'firebase_options.dart';
 
@@ -28,10 +28,11 @@ class MainApp extends StatelessWidget {
   String get initialRoute {
     final user = FirebaseAuth.instance.currentUser;
 
-    return switch (user) {
-      null => '/',
-      User() => '/app',
-    };
+    // return switch (user) {
+    //   null => '/',
+    //   User() => '/app',
+    // };
+    return '/';
   }
 
   @override
@@ -48,8 +49,6 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,
-        visualDensity: VisualDensity.standard,
-        useMaterial3: true,
         inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(),
         ),
