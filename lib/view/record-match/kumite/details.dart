@@ -105,27 +105,27 @@ class _DetailKumiteMatchState extends State<DetailKumiteMatch> {
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
-        // FilledButton.icon(
-        //     onPressed: completed
-        //         ? null
-        //         : () {
-        //             showDialog(
-        //               context: context,
-        //               builder: (BuildContext context) {
-        //                 return AddScore(
-        //                   match: match,
-        //                   onSubmit: (Score score) {
-        //                     setState(() {
-        //                       match.addScore(score);
-        //                     });
-        //                     Navigator.of(context).pop();
-        //                   },
-        //                 );
-        //               },
-        //             );
-        //           },
-        //     icon: const Icon(Icons.add),
-        //     label: const Text('Add Score')),
+        FilledButton.icon(
+            onPressed: completed
+                ? null
+                : () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AddScore(
+                          match: match,
+                          onSubmit: (Score score) {
+                            setState(() {
+                              match.addScore(score);
+                            });
+                            Navigator.of(context).pop();
+                          },
+                        );
+                      },
+                    );
+                  },
+            icon: const Icon(Icons.add),
+            label: const Text('Add Score')),
         FilledButton.icon(
             onPressed: () async {
               bool isConfirmed = false;
@@ -158,14 +158,6 @@ class _DetailKumiteMatchState extends State<DetailKumiteMatch> {
             },
             icon: const Icon(Icons.save),
             label: const Text('Save Match')),
-        FilledButton.icon(
-            onPressed: () => {
-                  Navigator.of(
-                    context,
-                  ).pop()
-                },
-            icon: const Icon(Icons.save),
-            label: const Text('Save Match'))
       ],
     );
   }

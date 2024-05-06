@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ippon/view/clubs/all_clubs.dart';
+import 'package:ippon/view/clubs/club_tab_view.dart';
 import 'package:ippon/view/matchbook.dart';
-import 'package:ippon/view/record-match/record.dart';
+import 'package:ippon/view/record-match/kumite/record.dart';
 import 'package:ippon/view/record-match/type.dart';
 import 'package:ippon/view/stats.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -16,7 +18,7 @@ List<Widget> _buildScreens() {
     const Matchbook(),
     const Stats(),
     const SelectKarateMatchType(),
-    const Stats(),
+    const ClubTabView(),
     const Stats()
   ];
 }

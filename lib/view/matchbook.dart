@@ -58,7 +58,8 @@ class _MatchbookState extends State<Matchbook> {
                   itemCount: matches.length,
                   itemBuilder: (context, index) {
                     try {
-                      final match = matches[index];
+                      final QueryDocumentSnapshot<Map<String, dynamic>> match =
+                          matches[index];
                       final String title = match['title'];
                       final String description = match['description'];
                       final String opponent = match['opponent'];
@@ -69,10 +70,8 @@ class _MatchbookState extends State<Matchbook> {
                                 PersistentNavBarNavigator.pushNewScreen(
                                   context,
                                   screen: MatchScreen(
-                                      title: title,
-                                      description: description,
-                                      opponent: opponent,
-                                      wasWon: true),
+                                    matchDoc: match,
+                                  ),
                                   withNavBar: true,
                                 )
                               });

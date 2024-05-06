@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,11 @@ class SignIn extends StatelessWidget {
           };
 
           if (user != null) {
+            final String name = user.displayName ?? user.email!;
+            final FirebaseFirestore db = FirebaseFirestore.instance;
+            final DocumentReference<Map<String, dynamic>> userDoc =
+                db.collection('users').doc(user.uid);
+            userDoc.set({'name': name}, SetOptions(merge: true));
             Navigator.pushReplacementNamed(context, '/app');
           }
         }),

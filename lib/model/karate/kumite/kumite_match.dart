@@ -8,7 +8,7 @@ import 'score.dart';
 
 class KumiteMatch {
   final String title;
-  final String description;
+  final String? description;
   final String opponent;
   final DateTime dateTime;
   final ScoringSystems scoringSystem;
@@ -37,10 +37,7 @@ class KumiteMatch {
   List<Score> get scores => _scores;
 
   void addScore(Score score) {
-    //add score to _scores which is immutable
-    print(_scores.length);
     _scores = [..._scores, score];
-    print(_scores.length);
     _updateMatchStats();
   }
 
@@ -127,8 +124,8 @@ class KumiteMatch {
       final Map<String, dynamic> scoreData = {
         'index': index,
         'type': score.type.name,
-        'technique': score.technique.data.japaneseName,
-        'target': score.target.info.japaneseName,
+        'technique': score.technique.name,
+        'target': score.target.name,
         'description': score.description,
         'homeScored': score.homeScored,
       };
@@ -138,5 +135,55 @@ class KumiteMatch {
 
     await batch.commit();
     return true;
+  }
+
+  static Future<KumiteMatch> fromQueryDocument(
+      QueryDocumentSnapshot<Map<String, dynamic>> match) async {
+    final String title = match['title'];
+    final String? description = match['description'];
+    final String opponent = match['opponent'];
+    final Timestamp dateTimeTiemStamp = match['dateTime'];
+    final DateTime dateTime = dateTimeTiemStamp.toDate();
+    final ScoringSystems scoringSystem =
+        ScoringSystems.values.byName(match['scoringSystem'])!;
+    final List<Score> scores = [];
+    final QuerySnapshot<Map<String, dynamic>> scoreDocs = await match.reference
+        .collection('scores')
+        .orderBy(
+          'index',
+        )
+        .get();
+    for (QueryDocumentSnapshot<Map<String, dynamic>> scoreDoc
+        in scoreDocs.docs) {
+      final int index = scoreDoc['index'];
+      final String type = scoreDoc['type'];
+      final String technique = scoreDoc['technique'];
+      final String target = scoreDoc['target'];
+      final String? description = scoreDoc['description'];
+      final bool homeScored = scoreDoc['homeScored'];
+      final possibleScores = scoringSystem.system.scoreTypes;
+      final ScoreType scoreType = possibleScores.firstWhere(
+          (scoreType) => scoreType.name == type,
+          orElse: () => throw Exception('Invalid score type'));
+      // final ScoreType scoreType = ScoringSystems.SKIF.system.scoreTypes.first;
+
+      final Score score = Score(
+        type: scoreType,
+        technique: Techniques.values.byName(technique),
+        target: Targets.values.byName(target),
+        description: description,
+        homeScored: homeScored,
+      );
+      scores.add(score);
+    }
+
+    return KumiteMatch(
+      title: title,
+      description: description,
+      opponent: opponent,
+      dateTime: dateTime,
+      scoringSystem: scoringSystem,
+      scores: scores,
+    );
   }
 }
